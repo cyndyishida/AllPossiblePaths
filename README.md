@@ -1,7 +1,7 @@
-# AllPossiblePaths
+# ALL POSSIBLE PATHS
 
-Program that returns all the possible paths from starting vertex to destination vertex in a directed acylic graph. (Though any  acyclic graph would work) thats weighted with possible negative weighted edges.
+### Program that returns all the possible paths from starting vertex to destination vertex in a directed acylic graph. (Though any  acyclic graph would work) thats weighted with possible negative weighted edges.
 
-- written in python
+- written in python 3.6 
 - 2 approaches appear in program, 1 done iteratively and 1 done recursively
 - both utilized a brute force depth first search 
