@@ -1,5 +1,5 @@
 #from Graph import Graph
-from SUGraph import Graph
+from Graph_Recursive import Graph
 from pprint import pprint
 def test1():
     print("############## TEST 1 ##############")
@@ -44,22 +44,22 @@ def test3():
     paths = graph.find_valid_paths(21, 78, 50)
     print("".join([str(path) for path in paths]))
 
-    #assert (sum(p.weight for p in paths) == 298)
+    assert (sum(p.weight for p in paths) == 298)
 
-    #shortest = graph.find_shortest_path(21, 78, 50)
-    #longest = graph.find_longest_path(21, 78, 50)
-    #least = graph.find_least_vertices_path(21, 78, 50)
-    #most = graph.find_most_vertices_path(21, 78, 50)
+    shortest = graph.find_shortest_path(21, 78, 50)
+    longest = graph.find_longest_path(21, 78, 50)
+    least = graph.find_least_vertices_path(21, 78, 50)
+    most = graph.find_most_vertices_path(21, 78, 50)
 
-    #print(f"Shortest: {shortest}", end='')
-    #print(f"Longest: {longest}", end='')
-    #print(f"Least: {least}", end='')
-    #print(f"Most: {most}", end='')
+    print(f"Shortest: {shortest}", end='')
+    print(f"Longest: {longest}", end='')
+    print(f"Least: {least}", end='')
+    print(f"Most: {most}", end='')
 
-    #assert (shortest.weight == 1)
-    #assert (longest.weight == 47)
-    #assert (len(least.vertices) == 4)
-    #assert (len(most.vertices) == 8)
+    assert (shortest.weight == 1)
+    assert (longest.weight == 47)
+    assert (len(least.vertices) == 4)
+    assert (len(most.vertices) == 8)
 
 
 def main():

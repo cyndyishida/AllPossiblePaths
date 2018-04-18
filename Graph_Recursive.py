@@ -1,26 +1,26 @@
 import random
-import copy
+from copy import deepcopy
 
 class Graph(object):
     class Edge(object):
-        def __init__(self, source, destination, weight):
+        def __init__(self, source, dest, weight):
             """
             DO NOT EDIT!
             Class representing an Edge in a graph
             :param source: Vertex where this edge originates
-            :param destination: Vertex where this edge ends
+            :param dest: Vertex where this edge ends
             :param weight: Value associated with this edge
             """
             self.source = source
-            self.destination = destination
+            self.dest = dest
             self.weight = weight
             self.explored = False
 
         def __eq__(self, other):
-            return self.source == other.source and self.destination == other.destination
+            return self.source == other.source and self.dest == other.dest
 
         def __repr__(self):
-            return f"Source: {self.source} Destination: {self.destination} Weight: {self.weight}"
+            return f"Source: {self.source} Destination: {self.dest} Weight: {self.weight}"
 
         __str__ = __repr__
 
@@ -98,17 +98,17 @@ class Graph(object):
 
         __str__ = __repr__
 
-        def add_edge(self, destination, weight):
-            self.edges.append(Graph.Edge(self.id, destination, weight ))
+        def add_edge(self, dest, weight):
+            self.edges.append(Graph.Edge(self.id, dest, weight ))
 
         def degree(self):
             return len(self.edges)
 
-        def get_edge(self, destination):
+        def get_edge(self, dest):
             found = False
             i = 0
             while not found and i < len(self.edges):
-                if self.edges[i].destination == destination:
+                if self.edges[i].dest == dest:
                     found = True
                 else:
                     i += 1
@@ -181,6 +181,7 @@ class Graph(object):
 
         return list(edge for edge in vertex.get_edges() if not edge.explored)
 
+    # lists instead of path objects
     '''
     def find_path(self, source, dest, path, paths = []):
         curr = self.adj_list[source]
@@ -191,7 +192,7 @@ class Graph(object):
             for edge in curr.get_edges():
                 if path[-1] != curr:
                     path.append(curr)
-                self.find_path(edge.destination, dest, path[:],paths)
+                self.find_path(edge.dest, dest, path[:],paths)
 
 
 
@@ -204,48 +205,47 @@ class Graph(object):
         path.append(curr)
         for edge in curr.get_edges():
             #path[0][1] = edge.weight
-            found = self.find_path(edge.destination, dest, path[:], paths)
+            found = self.find_path(edge.dest, dest, path[:], paths)
 
 
 
         return paths
     '''
-    def find_path(self, source, dest, limit, path, paths = [], weight = 0 ):
+
+    def find(self, source, dest, limit, path, paths = [], weight = 0 ):
         curr = self.adj_list[source]
         if source == dest:
             if path.weight + weight  <= limit:
-                paths.append(self.Path(path.vertices[:] + [curr], path.weight + weight ))
+                paths.append(self.Path(path.vertices[:] +[source], path.weight + weight))
         else:
             for edge in curr.get_edges():
-                if path.vertices[-1] != curr:
-                    path.add(curr, weight)
-                self.find_path(edge.destination, dest,limit , self.Path(path.vertices[:], path.weight ),paths, weight = edge.weight)
-
+                if path.vertices[-1] != source:
+                    path.add(source, weight)
+                self.find(edge.dest, dest,limit ,self.Path(path.vertices[:], path.weight), paths, weight = edge.weight)
+                # deep copy makes my code substiationlly longer
 
     def find_valid_paths(self, source, dest, limit):
         # recursive solution
         paths = []
-
-        curr = self.adj_list[source]
-        path = self.Path([curr])
-        for edge in curr.get_edges():
-            found = self.find_path(edge.destination, dest, limit ,self.Path(path.vertices[:], edge.weight), paths)
+        for edge in self.adj_list[source].get_edges():
+            self.find(edge.dest, dest, limit ,self.Path([source], edge.weight), paths)
 
         return paths
 
-    def find_shortest_path(self, source, destination, limit):
-        paths = self.find_valid_paths(source, destination, limit)
+
+    def find_shortest_path(self, source, dest, limit):
+        paths = self.find_valid_paths(source, dest, limit)
         return min(paths , key =lambda p: p.weight )
 
-    def find_longest_path(self, source, destination, limit):
-        paths = self.find_valid_paths(source, destination, limit)
+    def find_longest_path(self, source, dest, limit):
+        paths = self.find_valid_paths(source, dest, limit)
         return max(paths , key =lambda p: p.weight )
 
-    def find_most_vertices_path(self, source, destination, limit):
-        paths = self.find_valid_paths(source, destination, limit)
+    def find_most_vertices_path(self, source, dest, limit):
+        paths = self.find_valid_paths(source, dest, limit)
         return max(paths , key =lambda p: len(p.vertices) )
 
-    def find_least_vertices_path(self, source, destination, limit):
-        paths = self.find_valid_paths(source, destination, limit)
+    def find_least_vertices_path(self, source, dest, limit):
+        paths = self.find_valid_paths(source, dest, limit)
         return min(paths , key =lambda p: len(p.vertices) )
 
