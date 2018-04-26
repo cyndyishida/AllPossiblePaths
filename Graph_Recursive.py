@@ -219,13 +219,13 @@ class Graph(object):
         else: 
             for edge in self.adj_list[source].get_edges():
                 path.add(edge.dest, edge.weight)
+                # using deep copy makes the code substiationlly longer
                 self.find(edge.dest, dest,limit ,self.Path(path.vertices[:], path.weight), paths)
                 path.remove(edge.weight)
-                # deep copy makes my code substiationlly longer
 
 
     def find_valid_paths(self, source, dest, limit):
-        # recursive solution
+        # recursive dfs solution
         paths = []
         self.find(source, dest, limit ,self.Path([source]), paths)
         return paths
