@@ -212,24 +212,22 @@ class Graph(object):
         return paths
     '''
 
-    def find(self, source, dest, limit, path, paths = [], weight = 0 ):
-        curr = self.adj_list[source]
+    def find(self, source, dest, limit, path, paths = [] ):
         if source == dest:
-            if path.weight + weight  <= limit:
-                paths.append(self.Path(path.vertices[:] +[source], path.weight + weight))
-        else:
-            for edge in curr.get_edges():
-                if path.vertices[-1] != source:
-                    path.add(source, weight)
-                self.find(edge.dest, dest,limit ,self.Path(path.vertices[:], path.weight), paths, weight = edge.weight)
+            if path.weight <= limit:
+                paths.append(self.Path(path.vertices[:], path.weight))
+        else: 
+            for edge in self.adj_list[source].get_edges():
+                path.add(edge.dest, edge.weight)
+                self.find(edge.dest, dest,limit ,self.Path(path.vertices[:], path.weight), paths)
+                path.remove(edge.weight)
                 # deep copy makes my code substiationlly longer
+
 
     def find_valid_paths(self, source, dest, limit):
         # recursive solution
         paths = []
-        for edge in self.adj_list[source].get_edges():
-            self.find(edge.dest, dest, limit ,self.Path([source], edge.weight), paths)
-
+        self.find(source, dest, limit ,self.Path([source]), paths)
         return paths
 
 

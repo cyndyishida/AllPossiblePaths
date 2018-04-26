@@ -50,7 +50,7 @@ def test3():
     longest = graph.find_longest_path(21, 78, 50)
     least = graph.find_least_vertices_path(21, 78, 50)
     most = graph.find_most_vertices_path(21, 78, 50)
-
+        
     print(f"Shortest: {shortest}", end='')
     print(f"Longest: {longest}", end='')
     print(f"Least: {least}", end='')
