@@ -178,7 +178,6 @@ class Graph(object):
 
 
     def preprocess(self,vertex):
-
         return list(edge for edge in vertex.get_edges() if not edge.explored)
 
     # lists instead of path objects
@@ -220,7 +219,7 @@ class Graph(object):
             for edge in self.adj_list[source].get_edges():
                 path.add(edge.dest, edge.weight)
                 # using deep copy makes the code substiationlly longer
-                self.find(edge.dest, dest,limit ,self.Path(path.vertices[:], path.weight), paths)
+                self.find(edge.dest, dest,limit ,path, paths)
                 path.remove(edge.weight)
 
 
